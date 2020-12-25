@@ -6,6 +6,9 @@ public class SlimePiece : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(gameObject);
+        if(collision.GetComponent<SlimeDeform>().form == Form.eat)
+        {
+            Destroy(gameObject);
+        }
     }
 }
