@@ -170,7 +170,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 5
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -236,11 +236,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skinnedMeshRenderer: {fileID: 6528875935745109886}
-  elasticCoefficient: 8
+  elasticCoefficient: 10
   maxDraggingDistance: 0.4
   referenceRange: 1.2
   maxOffset: 0
-  pointsCount: 100
+  pointsCount: 120
 --- !u!114 &7345208134788774730
 MonoBehaviour:
   m_ObjectHideFlags: 0
