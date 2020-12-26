@@ -58,14 +58,16 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\SlimePiece.cs" />
+    <Compile Include="Assets\Scripts\LevelController.cs" />
     <Compile Include="Assets\Scripts\RedTrap.cs" />
     <Compile Include="Assets\Scripts\SlimeDeform.cs" />
     <Compile Include="Assets\Scripts\SlimeMove.cs" />
-    <Compile Include="Assets\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Scripts\Key.cs" />
+    <Compile Include="Assets\Scripts\Goal.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\BUGS.txt" />
-     <None Include="Assets\Materials\ElasticShader.shader" />
+     <None Include="Assets\Resources\Materials\ElasticShader.shader" />
     <Reference Include="UnityEngine">
       <HintPath>D:\Program Files\Unity\2020.2.0f1c1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

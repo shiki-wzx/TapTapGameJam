@@ -3,3 +3,4 @@
 2. SlimeFly中shader处理部分 存在旋转模型后鼠标点击点与shader作用点不匹配
 3. SlimeFly中DrawTrail 存在画参考线时材质贴图会拉伸的情况 怀疑是贴图的问题
 4. SlimeFly中shader处理部分 使用虚拟相机后 由于使用Camera.main进行鼠标点击位置的相关计算 导致存在鼠标点击点与shader作用点不匹配
+5. LevelController失败后重新开始关卡 场景还原 动画

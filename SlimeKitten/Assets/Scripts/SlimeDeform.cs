@@ -5,41 +5,89 @@ using UnityEngine;
 public class SlimeDeform : MonoBehaviour
 {
     private Animator animator;
+    private Rigidbody2D rb2d;
+    private SlimeMove sm;
     [HideInInspector]
     public Form form;
+    private bool setStrip;
+    private float timer;
+
+    public float balloonForce = 1f;
 
     void Start()
     {
-        //animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
+        rb2d = GetComponentInParent<Rigidbody2D>();
+        sm = GetComponentInParent<SlimeMove>();
+
+        form = Form.normal;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        animator.SetBool("StandBy", sm.isOnGround);
+        if (!sm.isOnGround)
         {
-            //animator.SetTrigger("Eat");
-            form = Form.eat; // 动画事件，复原form
-        }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                animator.SetTrigger("Eat");
+            }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            animator.SetTrigger("Longer");
-            form = Form.longer;
-        }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                animator.SetTrigger("Strip");
+                setStrip = true;
+            }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            animator.SetTrigger("Bullon");
-            form = Form.bullon;
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                animator.SetTrigger("Balloon");
+            }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        if (setStrip)
+        {
+            if (timer == 0)
+                rb2d.velocity += 3 * new Vector2(transform.up.x, transform.up.y);
+            timer += Time.fixedDeltaTime;
+        }
+        if (timer > 2f)
+        {
+            rb2d.velocity -= 3 * new Vector2(transform.up.x, transform.up.y);
+            setStrip = false;
+            timer = 0;
+        }
+    }
+
+    public void StartEat()
+    {
+        form = Form.eat;
+    }
+
+    public void StopEat()
+    {
+        form = Form.normal;
+    }
+
+    public void Balloon()
+    {
+        rb2d.AddForce(balloonForce * transform.up);
+    }
+
+    public void Strip()
+    {
+
     }
 }
 
 public enum Form
 {
-    origin,
+    normal,
     eat,
-    longer,
-    bullon
+    strip,
+    balloon
 }
 
