@@ -6,7 +6,11 @@ public class Key : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.GetComponent<SlimeMove>().getKey = true;
-        Destroy(gameObject);
+        if (collision.GetComponentInChildren<SlimeDeform>().form == Form.eat)
+        {
+            collision.GetComponent<SlimeMove>().getKey = true;
+            Destroy(gameObject);
+        }
+            
     }
 }
