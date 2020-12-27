@@ -1313,7 +1313,7 @@ GameObject:
   - component: {fileID: 999387632}
   - component: {fileID: 999387631}
   - component: {fileID: 999387630}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Goal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2480,7 +2480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 294737092859156127, guid: efe11808910f622408c6eda4cafe2056, type: 3}
       propertyPath: pointsCount
-      value: 75
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 294737094462086156, guid: efe11808910f622408c6eda4cafe2056, type: 3}
       propertyPath: m_RootOrder

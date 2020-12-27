@@ -231,6 +231,7 @@ public class SlimeMove : MonoBehaviour
         hitGround_2 = Physics2D.Raycast(new Vector2(transform.position.x + offsetX, transform.position.y), Vector2.down, offsetY, LayerMask.GetMask("Ground"));
         if (hitGround_1 && hitGround_2)
         {
+            rb2d.GetComponent<Transform>().rotation = new Quaternion(0, 0, 0,0);
             rb2d.bodyType = RigidbodyType2D.Static;
             isOnGround = true;
         }
