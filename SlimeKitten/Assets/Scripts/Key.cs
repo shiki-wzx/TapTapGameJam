@@ -9,7 +9,7 @@ public class Key : MonoBehaviour
         if (collision.GetComponentInChildren<SlimeDeform>().form == Form.eat)
         {
             collision.GetComponent<SlimeMove>().getKey = true;
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
             
     }

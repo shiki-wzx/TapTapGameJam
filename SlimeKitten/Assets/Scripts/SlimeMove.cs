@@ -40,8 +40,13 @@ public class SlimeMove : MonoBehaviour
     private Vector3 lastFrameMousePosition;
     private Vector3 offset;
 
+    [HideInInspector]
+    public int tempslimePiecesCount;
+    [HideInInspector]
     public int slimePiecesCount;
+    [HideInInspector]
     public int largerPercent;
+    [HideInInspector]
     public bool getKey;
 
     private List<Vector3> pointsList = new List<Vector3>();
@@ -206,11 +211,11 @@ public class SlimeMove : MonoBehaviour
     void DrawTrail()
     {
         pointsList.Clear();
-        for (int i = 0; i < pointsCount; i++)
+        for (int i = 30; i < pointsCount + 30; i++)
         {
             float x = velocity.x * i * Time.deltaTime;
-            float y = velocity.y * i * Time.deltaTime + .5f * Physics.gravity.y * Mathf.Pow(i * Time.deltaTime, 2);
-            pointsList.Add(transform.position + new Vector3(x, y));
+            float y = velocity.y * i * Time.deltaTime + .5f * Physics2D.gravity.y * Mathf.Pow(i * Time.deltaTime, 2);
+            pointsList.Add(transform.position + new Vector3(x, y, 0));
         }
         lr.positionCount = pointsList.Count;
         for (int i = 0; i < pointsList.Count; i++)
@@ -239,12 +244,17 @@ public class SlimeMove : MonoBehaviour
 
     void Move()
     {
+        Transform tf = transform.GetChild(0);
+        Debug.Log(tf.name);
+        GetComponentInChildren<Animator>().SetBool("Walk", Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D));
         if (Input.GetKey(KeyCode.A))
         {
+            tf.eulerAngles = Vector3.Lerp(tf.eulerAngles, new Vector3(0, 240, 0), .2f);
             transform.position -= new Vector3(moveSpeed * Time.deltaTime, 0, 0);
         }
         if (Input.GetKey(KeyCode.D))
         {
+            tf.eulerAngles = Vector3.Lerp(tf.eulerAngles, new Vector3(0, 120, 0), .2f);
             transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
         }
 

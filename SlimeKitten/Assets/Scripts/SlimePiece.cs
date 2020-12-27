@@ -9,7 +9,7 @@ public class SlimePiece : MonoBehaviour
         //if(collision.GetComponentInChildren<SlimeDeform>().form == Form.eat)
         //{
             collision.GetComponent<SlimeMove>().slimePiecesCount++;
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         //}
     }
 }

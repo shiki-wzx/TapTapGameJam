@@ -1,54 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
-    private static List<Vector3> slimePositions = new List<Vector3>();
-    private static List<CameraPosition> cameraPositions = new List<CameraPosition>();
+    public List<Level> levels = new List<Level>();
 
     public Transform slime;
+
+    public float lerpTime = .1f;
+    public float followingOffset = 5f;
+    public float followingLerpTime = .15f;
 
     private CameraPosition cp;
     private Vector3 currentCameraPosition;
 
     private bool following;
 
-    public float lerpTime = .1f;
-    public float followingOffset = 5f;
-    public float followingLerpTime = .15f;
-
-    void Awake()
-    {
-        slimePositions.Add(new Vector3(-24.68f, -0.93f, -6f));
-        slimePositions.Add(new Vector3(-9.35f, -0.47f, -6f));
-        slimePositions.Add(new Vector3(9.52f, -0.8f, -6f));
-        slimePositions.Add(new Vector3(34.82f, -0.45f, -6f));
-        slimePositions.Add(new Vector3(59.97f, -1.15f, -6f));
-        slimePositions.Add(new Vector3(74.66f, 1.67f, -6f));
-        slimePositions.Add(new Vector3(107.75f, -1.33f, -6f));
-
-        cameraPositions.Add(new CameraPosition(false, -16.43f));
-        cameraPositions.Add(new CameraPosition(false, -1.03f));
-        cameraPositions.Add(new CameraPosition(true, 16.81f, 24.81f));
-        cameraPositions.Add(new CameraPosition(true, 42.08f, 50.08f));
-        cameraPositions.Add(new CameraPosition(false, 66.89f));
-        cameraPositions.Add(new CameraPosition(true, 82.74f, 100.74f));
-        cameraPositions.Add(new CameraPosition(true, 115.09f, 132.51f));
-    }
-
     void Update()
     {
-        //Test
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            GameManager.Instance.LevelPass();
-        }
-
         if (!GameManager.Instance.newLevelIsSet)
         {
             following = false;
-            SetPosition(GameManager.Instance.GetCurrentLevel());
+            SetLevel(GameManager.Instance.GetCurrentLevel());
         }
         else
         {
@@ -59,17 +34,29 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    void SetPosition(int level)
+    public Level GetCurrentLevel()
+    {
+        return levels[GameManager.Instance.GetCurrentLevel()];
+    }
+
+    void SetLevel(int level)
     {
         // 动画问题
         slime.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-        slime.position = slimePositions[level] + new Vector3(0, .3f, 0); // 给的坐标存在偏差
+        slime.position = levels[level].slimePosition + new Vector3(0, .3f, 0); // 给的坐标存在偏差
         slime.eulerAngles = Vector3.zero;
         slime.GetComponentInChildren<Animator>().SetBool("StandBy", true);
+        slime.GetComponent<SlimeMove>().slimePiecesCount = 0;
         slime.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
 
+        // 环境
+        foreach (GameObject go in levels[level].gameObjects)
+        {
+            go.SetActive(true);
+        }
+
         // Set Camera Position
-        cp = cameraPositions[level];
+        cp = levels[level].cameraPosition;
         currentCameraPosition = Camera.main.transform.position;
         Vector3 nextLevelPosition = new Vector3(cp.minX, currentCameraPosition.y, currentCameraPosition.z);
         GameManager.Instance.newLevelIsSet = (nextLevelPosition - currentCameraPosition).sqrMagnitude < .1f;
@@ -93,6 +80,18 @@ public class LevelController : MonoBehaviour
     }
 }
 
+[Serializable]
+public class Level
+{
+    public List<GameObject> gameObjects;
+    public Vector3 slimePosition;
+    public CameraPosition cameraPosition;
+    public int needSlimePieces;
+    public bool needKey;
+    public bool newSkill;
+}
+
+[Serializable]
 public class CameraPosition
 {
     public bool isWideLevel;

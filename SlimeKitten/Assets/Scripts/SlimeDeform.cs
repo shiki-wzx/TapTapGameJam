@@ -9,6 +9,8 @@ public class SlimeDeform : MonoBehaviour
     private SlimeMove sm;
     [HideInInspector]
     public Form form;
+    [HideInInspector]
+    public int status;
     private bool setStrip;
     private float timer;
 
@@ -28,18 +30,18 @@ public class SlimeDeform : MonoBehaviour
         animator.SetBool("StandBy", sm.isOnGround);
         if (!sm.isOnGround)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Q) && status == 1)
             {
                 animator.SetTrigger("Eat");
             }
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) && status == 2)
             {
                 animator.SetTrigger("Strip");
                 setStrip = true;
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && status == 3)
             {
                 animator.SetTrigger("Balloon");
             }
@@ -75,11 +77,6 @@ public class SlimeDeform : MonoBehaviour
     public void Balloon()
     {
         rb2d.AddForce(balloonForce * transform.up);
-    }
-
-    public void Strip()
-    {
-
     }
 }
 
